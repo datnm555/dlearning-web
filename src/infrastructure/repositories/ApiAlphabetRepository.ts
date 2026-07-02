@@ -3,7 +3,11 @@ import type { AlphabetRepository } from '../../domain/repositories/AlphabetRepos
 import type { HttpClient } from '../http/HttpClient';
 
 export class ApiAlphabetRepository implements AlphabetRepository {
-  constructor(private readonly http: HttpClient) {}
+  private readonly http: HttpClient;
+
+  constructor(http: HttpClient) {
+    this.http = http;
+  }
 
   getAll(): Promise<AlphabetLetter[]> {
     return this.http.get<AlphabetLetter[]>('/alphabet');

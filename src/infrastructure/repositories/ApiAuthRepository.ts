@@ -11,7 +11,11 @@ interface LoginResponseDto {
 }
 
 export class ApiAuthRepository implements AuthRepository {
-  constructor(private readonly http: HttpClient) {}
+  private readonly http: HttpClient;
+
+  constructor(http: HttpClient) {
+    this.http = http;
+  }
 
   async login(input: LoginInput): Promise<AuthSession> {
     const dto = await this.http.post<LoginResponseDto>('/users/login', input);

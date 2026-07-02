@@ -7,7 +7,11 @@ export interface HttpClientOptions {
 }
 
 export class HttpClient {
-  constructor(private readonly options: HttpClientOptions) {}
+  private readonly options: HttpClientOptions;
+
+  constructor(options: HttpClientOptions) {
+    this.options = options;
+  }
 
   post<T>(path: string, body: unknown): Promise<T> {
     return this.request<T>('POST', path, body);
