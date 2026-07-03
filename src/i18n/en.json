@@ -1,0 +1,12 @@
+{
+  "app.title": "dLearning",
+  "app.chooseLesson": "Choose a lesson",
+  "app.greeting": "Hi {name} 👋",
+  "common.comingSoon": "Coming soon",
+  "common.logout": "Log out",
+  "common.loading": "Loading…",
+  "common.retry": "Retry",
+  "common.error": "Could not load data.",
+  "lang.vi": "Tiếng Việt",
+  "lang.en": "English"
+}

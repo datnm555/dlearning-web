@@ -1,0 +1,12 @@
+{
+  "app.title": "dLearning",
+  "app.chooseLesson": "Chọn bài học",
+  "app.greeting": "Xin chào, {name} 👋",
+  "common.comingSoon": "Sắp ra mắt",
+  "common.logout": "Đăng xuất",
+  "common.loading": "Đang tải…",
+  "common.retry": "Thử lại",
+  "common.error": "Không tải được dữ liệu.",
+  "lang.vi": "Tiếng Việt",
+  "lang.en": "English"
+}
