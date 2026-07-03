@@ -17,8 +17,9 @@ export class HttpClient {
     return this.request<T>('POST', path, body);
   }
 
-  get<T>(path: string): Promise<T> {
-    return this.request<T>('GET', path);
+  get<T>(path: string, query?: Record<string, string>): Promise<T> {
+    const qs = query ? `?${new URLSearchParams(query).toString()}` : '';
+    return this.request<T>('GET', `${path}${qs}`);
   }
 
   private async request<T>(method: string, path: string, body?: unknown): Promise<T> {
