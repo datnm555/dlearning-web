@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { RequireAuth } from './auth/RequireAuth';
 import { AlphabetPage } from './pages/AlphabetPage';
+import { ColorsPage } from './pages/ColorsPage';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -21,6 +22,14 @@ export const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <AlphabetPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/colors',
+    element: (
+      <RequireAuth>
+        <ColorsPage />
       </RequireAuth>
     ),
   },

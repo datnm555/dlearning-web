@@ -42,8 +42,8 @@ export function HomePage() {
   }, [selected, lang, reloadKey]);
 
   function openProduct(product: Product) {
-    if (product.code === 'alphabet') {
-      navigate('/alphabet');
+    if (product.isAvailable) {
+      navigate(`/${product.code}`);
     }
   }
 
