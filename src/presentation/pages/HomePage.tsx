@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { container } from '../../di/container';
-import type { Category } from '../../domain/models/Category';
 import type { Product } from '../../domain/models/Product';
-import { CategoryTabs } from '../components/CategoryTabs';
-import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { ProductCard } from '../components/ProductCard';
 import { useAuth } from '../auth/useAuth';
 import { useI18n } from '../i18n/useI18n';
@@ -12,34 +9,21 @@ import { useI18n } from '../i18n/useI18n';
 type Status = 'loading' | 'ready' | 'error';
 
 export function HomePage() {
-  const { session, logout } = useAuth();
+  const { session } = useAuth();
   const { lang, t } = useI18n();
   const navigate = useNavigate();
-
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selected, setSelected] = useState<string>('preschool');
   const [products, setProducts] = useState<Product[]>([]);
   const [status, setStatus] = useState<Status>('loading');
   const [reloadKey, setReloadKey] = useState(0);
 
-  // Categories (the menu) reload only when the language changes.
-  useEffect(() => {
-    let active = true;
-    container.getCategories(lang)
-      .then((cats) => { if (active) setCategories(cats); })
-      .catch(() => { if (active) setStatus('error'); });
-    return () => { active = false; };
-  }, [lang]);
-
-  // Products reload when the selected category, language, or retry counter changes.
   useEffect(() => {
     let active = true;
     setStatus('loading');
-    container.getProducts(selected, lang)
-      .then((prods) => { if (active) { setProducts(prods); setStatus('ready'); } })
+    container.getProducts('preschool', lang)
+      .then((items) => { if (active) { setProducts(items); setStatus('ready'); } })
       .catch(() => { if (active) setStatus('error'); });
     return () => { active = false; };
-  }, [selected, lang, reloadKey]);
+  }, [lang, reloadKey]);
 
   function openProduct(product: Product) {
     if (product.isAvailable) {
@@ -47,52 +31,50 @@ export function HomePage() {
     }
   }
 
-  function handleLogout() {
-    logout();
-    navigate('/login');
-  }
-
   return (
-    <div style={{ minHeight: '100vh', background: '#F4F3EF' }}>
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 34px', position: 'sticky', top: 0, background: 'rgba(244,243,239,.88)', backdropFilter: 'blur(12px)', zIndex: 5 }}>
-        <div style={{ fontFamily: 'Sora', fontWeight: 800, fontSize: 20 }}>{t('app.title')}</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <LanguageSwitcher />
-          <button onClick={handleLogout} style={{ border: '1px solid rgba(27,27,47,.08)', background: '#fff', borderRadius: 12, padding: '10px 16px', cursor: 'pointer', fontWeight: 600, fontSize: 13, color: '#5A5A6B' }}>
-            {t('common.logout')}
+    <div>
+      <h1 style={{ fontFamily: 'Sora', fontWeight: 800, fontSize: 26, letterSpacing: '-.02em', margin: '0 0 4px' }}>
+        {t('app.greeting', { name: session?.user.displayName ?? '' })}
+      </h1>
+      <p style={{ fontSize: 14, color: '#6B6B80', margin: '0 0 24px' }}>{t('app.chooseLesson')}</p>
+
+      <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 22, background: 'linear-gradient(120deg,#4F46E5,#6D28D9 60%,#7C3AED)', color: '#fff', padding: '30px 34px', marginBottom: 26 }}>
+        <div style={{ position: 'absolute', right: -30, top: -30, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,.08)' }} />
+        <div style={{ position: 'relative', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 18 }}>
+          <div style={{ maxWidth: 420 }}>
+            <span style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', background: 'rgba(255,255,255,.16)', padding: '5px 11px', borderRadius: 20, marginBottom: 13 }}>
+              {t('home.continue')}
+            </span>
+            <h2 style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 26, letterSpacing: '-.02em', margin: 0, lineHeight: 1.15 }}>🔤 ABC</h2>
+          </div>
+          <button
+            onClick={() => navigate('/alphabet')}
+            style={{ border: 'none', borderRadius: 13, background: '#fff', color: '#4F46E5', fontFamily: 'Sora', fontWeight: 700, fontSize: 14, padding: '13px 24px', cursor: 'pointer', whiteSpace: 'nowrap', boxShadow: '0 10px 24px -10px rgba(0,0,0,.4)', display: 'flex', alignItems: 'center', gap: 8 }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#4F46E5"><path d="M8 5v14l11-7z" /></svg>
+            {t('home.startNow')}
           </button>
         </div>
-      </header>
+      </div>
 
-      <main style={{ padding: '6px 34px 60px' }}>
-        <h1 style={{ fontFamily: 'Sora', fontWeight: 800, fontSize: 26, letterSpacing: '-.02em', margin: '0 0 4px' }}>
-          {t('app.greeting', { name: session?.user.displayName ?? '' })}
-        </h1>
-        <p style={{ fontSize: 14, color: '#6B6B80', margin: '0 0 22px' }}>{t('app.chooseLesson')}</p>
+      <h3 style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 18, margin: '0 0 16px' }}>{t('home.yourLessons')}</h3>
 
-        {categories.length > 0 && (
-          <CategoryTabs categories={categories} selected={selected} onSelect={setSelected} />
-        )}
+      {status === 'loading' && <p style={{ color: '#6B6B80' }}>{t('common.loading')}</p>}
 
-        {status === 'loading' && <p style={{ color: '#6B6B80' }}>{t('common.loading')}</p>}
+      {status === 'error' && (
+        <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', padding: '12px 14px', borderRadius: 12, display: 'inline-flex', gap: 12, alignItems: 'center' }}>
+          {t('common.error')}
+          <button onClick={() => setReloadKey((k) => k + 1)} style={{ border: 'none', background: '#B91C1C', color: '#fff', borderRadius: 8, padding: '6px 12px', cursor: 'pointer' }}>{t('common.retry')}</button>
+        </div>
+      )}
 
-        {status === 'error' && (
-          <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', padding: '12px 14px', borderRadius: 12, display: 'inline-flex', gap: 12, alignItems: 'center' }}>
-            {t('common.error')}
-            <button onClick={() => setReloadKey((k) => k + 1)} style={{ border: 'none', background: '#B91C1C', color: '#fff', borderRadius: 8, padding: '6px 12px', cursor: 'pointer' }}>{t('common.retry')}</button>
-          </div>
-        )}
-
-        {status === 'ready' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))', gap: 16 }}>
-            {products.length === 0
-              ? <p style={{ color: '#8A8A99' }}>{t('common.comingSoon')}</p>
-              : products.map((p, i) => (
-                  <ProductCard key={p.code} product={p} index={i} comingSoonLabel={t('common.comingSoon')} onOpen={() => openProduct(p)} />
-                ))}
-          </div>
-        )}
-      </main>
+      {status === 'ready' && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))', gap: 16 }}>
+          {products.map((product, index) => (
+            <ProductCard key={product.code} product={product} index={index} comingSoonLabel={t('common.comingSoon')} onOpen={() => openProduct(product)} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

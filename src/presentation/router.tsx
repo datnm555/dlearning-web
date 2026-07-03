@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { RequireAuth } from './auth/RequireAuth';
+import { AppLayout } from './layout/AppLayout';
 import { AlphabetPage } from './pages/AlphabetPage';
 import { AnimalsPage } from './pages/AnimalsPage';
 import { ColorsPage } from './pages/ColorsPage';
@@ -15,41 +16,16 @@ export const router = createBrowserRouter([
     path: '/',
     element: (
       <RequireAuth>
-        <HomePage />
+        <AppLayout />
       </RequireAuth>
     ),
-  },
-  {
-    path: '/alphabet',
-    element: (
-      <RequireAuth>
-        <AlphabetPage />
-      </RequireAuth>
-    ),
-  },
-  {
-    path: '/colors',
-    element: (
-      <RequireAuth>
-        <ColorsPage />
-      </RequireAuth>
-    ),
-  },
-  {
-    path: '/animals',
-    element: (
-      <RequireAuth>
-        <AnimalsPage />
-      </RequireAuth>
-    ),
-  },
-  {
-    path: '/counting',
-    element: (
-      <RequireAuth>
-        <CountingPage />
-      </RequireAuth>
-    ),
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'alphabet', element: <AlphabetPage /> },
+      { path: 'colors', element: <ColorsPage /> },
+      { path: 'animals', element: <AnimalsPage /> },
+      { path: 'counting', element: <CountingPage /> },
+    ],
   },
   { path: '*', element: <Navigate to="/" replace /> },
 ]);
