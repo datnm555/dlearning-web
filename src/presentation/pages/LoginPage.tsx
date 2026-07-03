@@ -28,7 +28,7 @@ export function LoginPage() {
     try {
       const session = await container.login({ identifier, password });
       setSession(session, remember);
-      navigate('/alphabet');
+      navigate('/');
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Không thể đăng nhập. Vui lòng thử lại.');
     } finally {

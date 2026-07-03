@@ -32,7 +32,7 @@ export function RegisterPage() {
     try {
       const session = await container.register({ email, username, displayName, password });
       setSession(session, true);
-      navigate('/alphabet');
+      navigate('/');
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Không thể đăng ký. Vui lòng thử lại.');
     } finally {
