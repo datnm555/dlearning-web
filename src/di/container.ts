@@ -1,5 +1,6 @@
 import { makeGetAlphabet } from '../application/usecases/getAlphabet';
 import { makeGetCategories } from '../application/usecases/getCategories';
+import { makeGetColors } from '../application/usecases/getColors';
 import { makeGetProducts } from '../application/usecases/getProducts';
 import { makeLogin } from '../application/usecases/login';
 import { makeRegister } from '../application/usecases/register';
@@ -7,6 +8,7 @@ import { HttpClient } from '../infrastructure/http/HttpClient';
 import { ApiAlphabetRepository } from '../infrastructure/repositories/ApiAlphabetRepository';
 import { ApiAuthRepository } from '../infrastructure/repositories/ApiAuthRepository';
 import { ApiCatalogRepository } from '../infrastructure/repositories/ApiCatalogRepository';
+import { ApiColorRepository } from '../infrastructure/repositories/ApiColorRepository';
 import { TokenStorage } from '../infrastructure/storage/TokenStorage';
 
 function createContainer() {
@@ -26,6 +28,7 @@ function createContainer() {
   const authRepository = new ApiAuthRepository(http);
   const alphabetRepository = new ApiAlphabetRepository(http);
   const catalogRepository = new ApiCatalogRepository(http);
+  const colorRepository = new ApiColorRepository(http);
 
   return {
     tokenStorage,
@@ -34,6 +37,7 @@ function createContainer() {
     getAlphabet: makeGetAlphabet(alphabetRepository),
     getCategories: makeGetCategories(catalogRepository),
     getProducts: makeGetProducts(catalogRepository),
+    getColors: makeGetColors(colorRepository),
   };
 }
 
