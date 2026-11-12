@@ -15,5 +15,9 @@
   "common.retry": "Thử lại",
   "common.error": "Không tải được dữ liệu.",
   "lang.vi": "Tiếng Việt",
-  "lang.en": "English"
+  "lang.en": "English",
+  "kids.alphabet": "Bảng chữ cái",
+  "kids.prev": "Chữ trước",
+  "kids.next": "Chữ sau",
+  "kids.back": "Về bảng chữ cái"
 }

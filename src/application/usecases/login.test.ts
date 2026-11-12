@@ -4,16 +4,12 @@ import type { AuthRepository } from '../../domain/repositories/AuthRepository';
 
 describe('login use case', () => {
   it('delegates to the repository', async () => {
-    const session = { token: 'T', user: { id: '1', email: 'a@b.vn', username: 'u', displayName: 'U' } };
-    const repo: AuthRepository = {
-      register: vi.fn(),
-      login: vi.fn().mockResolvedValue(session),
-    };
+    const session = { token: 'T', expiresAt: '2030-01-01T00:00:00Z', user: { id: '1', username: 'sam', createdAt: '2026-01-01T00:00:00Z' } };
+    const repo: AuthRepository = { register: vi.fn(), login: vi.fn().mockResolvedValue(session) };
 
-    const login = makeLogin(repo);
-    const result = await login({ identifier: 'u', password: 'pw' });
+    const result = await makeLogin(repo)({ username: 'sam', password: '1' });
 
-    expect(repo.login).toHaveBeenCalledWith({ identifier: 'u', password: 'pw' });
+    expect(repo.login).toHaveBeenCalledWith({ username: 'sam', password: '1' });
     expect(result).toBe(session);
   });
 });

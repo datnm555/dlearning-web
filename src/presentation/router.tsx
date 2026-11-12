@@ -1,14 +1,14 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { RequireAuth } from './auth/RequireAuth';
-import { AppLayout } from './layout/AppLayout';
-import { AlphabetPage } from './pages/AlphabetPage';
-import { AnimalsPage } from './pages/AnimalsPage';
-import { ColorsPage } from './pages/ColorsPage';
-import { CountingPage } from './pages/CountingPage';
-import { HomePage } from './pages/HomePage';
+import { AlphabetGridPage } from './kids/AlphabetGridPage';
+import { KidLayout } from './kids/KidLayout';
+import { LetterCardPage } from './kids/LetterCardPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 
+// HIDDEN (code kept, not routed): HomePage, AnimalsPage, ColorsPage, CountingPage, AppLayout,
+// SidebarMenu. They depend on the retired dlearning-be endpoints (/categories, /products,
+// /animals, /colors, /counting) which dlearning-api does not provide.
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
   { path: '/register', element: <RegisterPage /> },
@@ -16,15 +16,13 @@ export const router = createBrowserRouter([
     path: '/',
     element: (
       <RequireAuth>
-        <AppLayout />
+        <KidLayout />
       </RequireAuth>
     ),
     children: [
-      { index: true, element: <HomePage /> },
-      { path: 'alphabet', element: <AlphabetPage /> },
-      { path: 'colors', element: <ColorsPage /> },
-      { path: 'animals', element: <AnimalsPage /> },
-      { path: 'counting', element: <CountingPage /> },
+      { index: true, element: <AlphabetGridPage /> },
+      { path: 'letter/:id', element: <LetterCardPage /> },
+      { path: 'alphabet', element: <Navigate to="/" replace /> },
     ],
   },
   { path: '*', element: <Navigate to="/" replace /> },

@@ -1,5 +1,5 @@
-import type { AlphabetLetter } from '../models/AlphabetLetter';
+import type { Letter } from '../models/Letter';
 
 export interface AlphabetRepository {
-  getAll(): Promise<AlphabetLetter[]>;
+  getAll(): Promise<Letter[]>;
 }

@@ -10,13 +10,22 @@ export class TokenStorage {
     target.setItem(KEY, JSON.stringify(session));
   }
 
-  load(): AuthSession | null {
+  /** Returns the stored session, or null when absent, corrupt or expired (expired ones are cleared). */
+  load(now: number = Date.now()): AuthSession | null {
     const raw = localStorage.getItem(KEY) ?? sessionStorage.getItem(KEY);
     if (!raw) {
       return null;
     }
     try {
-      return JSON.parse(raw) as AuthSession;
+      const session = JSON.parse(raw) as AuthSession;
+      if (!session.token) {
+        return null;
+      }
+      if (session.expiresAt && Date.parse(session.expiresAt) <= now) {
+        this.clear();
+        return null;
+      }
+      return session;
     } catch {
       return null;
     }

@@ -15,5 +15,9 @@
   "common.retry": "Retry",
   "common.error": "Could not load data.",
   "lang.vi": "Tiếng Việt",
-  "lang.en": "English"
+  "lang.en": "English",
+  "kids.alphabet": "Alphabet",
+  "kids.prev": "Previous letter",
+  "kids.next": "Next letter",
+  "kids.back": "Back to the alphabet"
 }

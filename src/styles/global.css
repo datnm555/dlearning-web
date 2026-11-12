@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Baloo+2:wght@500;700;800&display=swap');
 
 * { box-sizing: border-box; }
 body {
@@ -17,3 +17,45 @@ input { font-family: inherit; }
 .auth-shell { display: flex; min-height: 100vh; }
 .auth-form { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; background: #FDFDFB; }
 @media (max-width: 860px) { .auth-brand { display: none !important; } }
+
+/* ---------- Kid alphabet UI ---------- */
+:root {
+  --kid-font: 'Baloo 2', 'Nunito', 'Quicksand', ui-rounded, 'SF Pro Rounded', 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --kid-ink: #1F2A44;
+  --kid-bg: #FFF8EC;
+}
+.kid-app { min-height: 100vh; min-height: 100dvh; background: var(--kid-bg); font-family: var(--kid-font); color: var(--kid-ink); }
+.kid-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; }
+.kid-header-actions { display: flex; align-items: center; gap: 12px; }
+.kid-logo { font-weight: 800; font-size: 32px; letter-spacing: .04em; background: #FFD9A0; border-radius: 20px; padding: 2px 18px; }
+.kid-main { padding: 8px 16px 32px; max-width: 1100px; margin: 0 auto; }
+.kid-btn { min-width: 64px; min-height: 64px; border: 3px solid var(--kid-ink); border-radius: 24px; background: #fff; color: var(--kid-ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-family: var(--kid-font); font-size: 22px; font-weight: 700; -webkit-tap-highlight-color: transparent; }
+.kid-btn:disabled { opacity: .3; cursor: default; }
+.kid-btn:focus-visible, .kid-tile:focus-visible { outline: 4px solid #2563EB; outline-offset: 3px; }
+.kid-status { text-align: center; font-size: 26px; font-weight: 700; padding: 48px 0; }
+.kid-retry { padding: 0 28px; background: #BDE7C9; }
+
+.kid-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); }
+.kid-tile { display: flex; align-items: baseline; justify-content: center; gap: 6px; min-height: 104px; border: 3px solid var(--kid-ink); border-radius: 28px; text-decoration: none; color: var(--kid-ink); background: var(--tone, #FFD6E0); box-shadow: 0 6px 0 var(--kid-ink); padding-top: 14px; transition: transform .1s; }
+.kid-tile:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--kid-ink); }
+.kid-tile-up { font-size: 52px; font-weight: 800; line-height: 1; }
+.kid-tile-low { font-size: 40px; font-weight: 700; line-height: 1; }
+
+.kid-tone-0 { --tone: #FFD6E0; } .kid-tone-1 { --tone: #CFE8FF; } .kid-tone-2 { --tone: #D5F5D0; }
+.kid-tone-3 { --tone: #FFF1B0; } .kid-tone-4 { --tone: #E3D7FF; } .kid-tone-5 { --tone: #FFDDC1; }
+
+.kid-card-wrap { position: fixed; inset: 0; z-index: 10; background: var(--tone); overflow-y: auto; }
+.kid-card { position: relative; min-height: 100%; font-family: var(--kid-font); color: var(--kid-ink); display: flex; flex-direction: column; align-items: center; padding: 16px 16px 112px; touch-action: pan-y; }
+.kid-back { position: absolute; top: 16px; left: 16px; }
+.kid-card-body { width: 100%; max-width: 900px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.kid-big-letter { margin: 8px 0 0; font-size: clamp(88px, 22vw, 190px); line-height: 1.05; font-weight: 800; }
+.kid-examples { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.kid-example { background: #fff; border: 3px solid var(--kid-ink); border-radius: 28px; padding: 14px 18px; display: flex; flex-direction: column; align-items: center; gap: 6px; width: min(100%, 260px); }
+.kid-pic { width: 100%; max-width: 200px; aspect-ratio: 1; object-fit: contain; }
+.kid-pic-emoji { display: flex; align-items: center; justify-content: center; font-size: 110px; line-height: 1; }
+.kid-word { font-size: 40px; font-weight: 700; text-align: center; }
+.kid-word-hl { background: none; color: #D6246E; font-weight: 800; }
+.kid-arrow { position: fixed; bottom: 20px; width: 84px; height: 84px; border-radius: 50%; background: #fff; box-shadow: 0 5px 0 var(--kid-ink); }
+.kid-arrow-prev { left: 20px; } .kid-arrow-next { right: 20px; }
+@media (max-width: 480px) { .kid-word { font-size: 32px; } .kid-example { width: 100%; } .kid-logo { font-size: 26px; } }
+@media (prefers-reduced-motion: reduce) { .kid-tile { transition: none; } }

@@ -34,7 +34,7 @@ export function HomePage() {
   return (
     <div>
       <h1 style={{ fontFamily: 'Sora', fontWeight: 800, fontSize: 26, letterSpacing: '-.02em', margin: '0 0 4px' }}>
-        {t('app.greeting', { name: session?.user.displayName ?? '' })}
+        {t('app.greeting', { name: session?.user.username ?? '' })}
       </h1>
       <p style={{ fontSize: 14, color: '#6B6B80', margin: '0 0 24px' }}>{t('app.chooseLesson')}</p>
 
