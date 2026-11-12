@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;700;800&family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;700;800&family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 /* ---------- shadcn/ui theme: soft, friendly pastel palette ---------- */
@@ -49,6 +49,9 @@
 
 /* ---------- Kid palette & type, defined once as Tailwind theme tokens ---------- */
 @theme {
+  /* Letters and words children read: Andika (SIL, OFL) has the single-storey a/g taught in
+     Vietnamese preschool and grade 1, distinct I/l/1 and full Vietnamese diacritics. */
+  --font-letter: 'Andika', 'Andika New Basic', 'Comic Sans MS', system-ui, sans-serif;
   --font-sans: 'Baloo 2', 'Nunito', 'Quicksand', ui-rounded, 'SF Pro Rounded', 'Arial Rounded MT Bold', system-ui, sans-serif;
 
   --color-ink: #1f2a44;

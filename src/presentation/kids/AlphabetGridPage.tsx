@@ -16,8 +16,8 @@ export function AlphabetGridPage() {
       {letters.map((l, i) => (
         <li key={l.id}>
           <Link to={`/letter/${l.id}`} className={`flex min-h-26 items-baseline justify-center gap-1.5 rounded-[1.75rem] border-[3px] border-ink pt-3.5 text-ink no-underline shadow-pop transition-transform duration-150 outline-none hover:-translate-y-1 hover:scale-105 active:translate-y-1 active:scale-95 active:shadow-pop-sm focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-blue-600 motion-reduce:transition-none motion-reduce:hover:transform-none motion-reduce:active:transform-none ${toneFor(i)}`} aria-label={`${l.upperCase} ${l.lowerCase}`}>
-            <span className="text-5xl leading-none font-extrabold sm:text-6xl">{l.upperCase}</span>
-            <span className="text-4xl leading-none font-bold sm:text-5xl">{l.lowerCase}</span>
+            <span className="font-letter text-5xl leading-none font-bold sm:text-6xl">{l.upperCase}</span>
+            <span className="font-letter text-4xl leading-none font-bold sm:text-5xl">{l.lowerCase}</span>
           </Link>
         </li>
       ))}
