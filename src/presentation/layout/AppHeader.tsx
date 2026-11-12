@@ -29,10 +29,10 @@ export function AppHeader() {
         <LanguageSwitcher />
         <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
           <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg,#4F46E5,#7C3AED)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Sora', fontWeight: 700, fontSize: 15, color: '#fff', boxShadow: '0 6px 16px -6px rgba(79,70,229,.6)' }}>
-            {initials(session?.user.displayName)}
+            {initials(session?.user.username)}
           </div>
           <div style={{ textAlign: 'left' }}>
-            <div style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 14, lineHeight: 1.2 }}>{session?.user.displayName}</div>
+            <div style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 14, lineHeight: 1.2 }}>{session?.user.username}</div>
             <div style={{ fontSize: 11.5, color: '#8A8A99' }}>Học viên</div>
           </div>
         </div>

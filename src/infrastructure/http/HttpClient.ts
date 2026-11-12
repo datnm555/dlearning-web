@@ -35,7 +35,8 @@ export class HttpClient {
       body: body === undefined ? undefined : JSON.stringify(body),
     });
 
-    if (response.status === 401) {
+    // Only an expired/invalid session counts: a 401 on login (no token sent) is just bad credentials.
+    if (response.status === 401 && token) {
       this.options.onUnauthorized();
     }
 

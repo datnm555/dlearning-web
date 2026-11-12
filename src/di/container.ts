@@ -19,7 +19,7 @@ function createContainer() {
   const tokenStorage = new TokenStorage();
 
   const http = new HttpClient({
-    baseUrl: '/api',
+    baseUrl: '/api/v1',
     getToken: () => tokenStorage.load()?.token ?? null,
     onUnauthorized: () => {
       tokenStorage.clear();

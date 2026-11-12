@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { container } from '../../di/container';
 import { ApiError } from '../../infrastructure/http/ApiError';
@@ -8,7 +8,7 @@ import { TextField } from '../components/TextField';
 import { useAuth } from '../auth/useAuth';
 
 export function LoginPage() {
-  const [identifier, setIdentifier] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [remember, setRemember] = useState(true);
@@ -19,18 +19,24 @@ export function LoginPage() {
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (!identifier.trim() || !password) {
+    if (!username.trim() || !password) {
       setError('Vui lòng nhập đầy đủ thông tin đăng nhập.');
       return;
     }
     setLoading(true);
     setError('');
     try {
-      const session = await container.login({ identifier, password });
+      const session = await container.login({ username: username.trim(), password });
       setSession(session, remember);
       navigate('/');
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Không thể đăng nhập. Vui lòng thử lại.');
+      setError(
+        err instanceof ApiError && err.status === 401
+          ? 'Sai tên đăng nhập hoặc mật khẩu.'
+          : err instanceof ApiError
+            ? err.message
+            : 'Không thể đăng nhập. Vui lòng thử lại.',
+      );
     } finally {
       setLoading(false);
     }
@@ -54,14 +60,14 @@ export function LoginPage() {
           )}
 
           <TextField
-            label="Email hoặc tên đăng nhập"
-            value={identifier}
-            onChange={setIdentifier}
-            placeholder="you@example.com"
+            label="Tên đăng nhập"
+            value={username}
+            onChange={setUsername}
+            placeholder="sam"
             icon={
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-                <path d="M4 6h16v12H4z" stroke="#A6A6B5" strokeWidth="1.6" />
-                <path d="M4 7l8 6 8-6" stroke="#A6A6B5" strokeWidth="1.6" />
+                <circle cx="12" cy="8" r="4" stroke="#A6A6B5" strokeWidth="1.6" />
+                <path d="M4 20c1-4 4-6 8-6s7 2 8 6" stroke="#A6A6B5" strokeWidth="1.6" />
               </svg>
             }
           />
@@ -93,22 +99,15 @@ export function LoginPage() {
               <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
               Ghi nhớ đăng nhập
             </label>
-            <a href="#" style={{ fontSize: 13, fontWeight: 600, color: '#4F46E5', textDecoration: 'none' }}>Quên mật khẩu?</a>
           </div>
 
           <PrimaryButton type="submit" disabled={loading}>
             {loading ? 'Đang đăng nhập…' : 'Đăng nhập'}
           </PrimaryButton>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '22px 0' }}>
-            <span style={{ flex: 1, height: 1, background: '#E4E2EC' }} />
-            <span style={{ fontSize: 12, color: '#A6A6B5' }}>hoặc tiếp tục với</span>
-            <span style={{ flex: 1, height: 1, background: '#E4E2EC' }} />
-          </div>
-          <div style={{ display: 'flex', gap: 12 }}>
-            <button type="button" style={socialBtnStyle}>Google</button>
-            <button type="button" style={socialBtnStyle}>Facebook</button>
-          </div>
+          <p data-testid="demo-hint" style={{ textAlign: 'center', fontSize: 13, color: '#6B6B80', margin: '18px 0 0' }}>
+            Tài khoản demo: <strong>sam</strong> / <strong>1</strong>
+          </p>
 
           <p style={{ textAlign: 'center', fontSize: 13, color: '#6B6B80', margin: '24px 0 0' }}>
             Chưa có tài khoản?{' '}
@@ -119,15 +118,3 @@ export function LoginPage() {
     </div>
   );
 }
-
-const socialBtnStyle: CSSProperties = {
-  flex: 1,
-  height: 46,
-  border: '1.5px solid #E4E2EC',
-  borderRadius: 12,
-  background: '#fff',
-  cursor: 'pointer',
-  fontSize: 13.5,
-  fontWeight: 600,
-  color: '#3A3A4D',
-};

@@ -3,11 +3,10 @@ import type { AuthRepository, LoginInput, RegisterInput } from '../../domain/rep
 import type { HttpClient } from '../http/HttpClient';
 
 interface LoginResponseDto {
-  token: string;
-  userId: string;
-  email: string;
-  username: string;
-  displayName: string;
+  accessToken: string;
+  tokenType: string;
+  expiresAt: string;
+  user: { id: string; username: string; createdAt: string };
 }
 
 export class ApiAuthRepository implements AuthRepository {
@@ -19,18 +18,10 @@ export class ApiAuthRepository implements AuthRepository {
 
   async login(input: LoginInput): Promise<AuthSession> {
     const dto = await this.http.post<LoginResponseDto>('/users/login', input);
-    return {
-      token: dto.token,
-      user: {
-        id: dto.userId,
-        email: dto.email,
-        username: dto.username,
-        displayName: dto.displayName,
-      },
-    };
+    return { token: dto.accessToken, expiresAt: dto.expiresAt, user: dto.user };
   }
 
   async register(input: RegisterInput): Promise<void> {
-    await this.http.post<{ id: string }>('/users/register', input);
+    await this.http.post('/users/register', input);
   }
 }

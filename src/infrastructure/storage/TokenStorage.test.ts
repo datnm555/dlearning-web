@@ -1,7 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { TokenStorage } from './TokenStorage';
 
-const session = { token: 'T', user: { id: '1', email: 'a@b.vn', username: 'u', displayName: 'U' } };
+const session = {
+  token: 'T',
+  expiresAt: '2999-01-01T00:00:00Z',
+  user: { id: '1', username: 'sam', createdAt: '2026-01-01T00:00:00Z' },
+};
 
 describe('TokenStorage', () => {
   beforeEach(() => {
@@ -29,5 +33,12 @@ describe('TokenStorage', () => {
     storage.save(session, true);
     storage.clear();
     expect(storage.load()).toBeNull();
+  });
+
+  it('drops an expired session', () => {
+    const storage = new TokenStorage();
+    storage.save({ ...session, expiresAt: '2020-01-01T00:00:00Z' }, true);
+    expect(storage.load()).toBeNull();
+    expect(localStorage.getItem('dlearning.session')).toBeNull();
   });
 });

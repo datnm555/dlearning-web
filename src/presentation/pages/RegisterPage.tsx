@@ -1,15 +1,16 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { container } from '../../di/container';
+import { isValidPassword, isValidUsername } from '../../application/usecases/passwordRule';
 import { ApiError } from '../../infrastructure/http/ApiError';
 import { BrandPane } from '../components/BrandPane';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { TextField } from '../components/TextField';
 import { useAuth } from '../auth/useAuth';
 
+const PASSWORD_RULE = 'Mật khẩu 8–128 ký tự, có ít nhất 1 chữ cái và 1 chữ số.';
+
 export function RegisterPage() {
-  const [displayName, setDisplayName] = useState('');
-  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,22 +20,32 @@ export function RegisterPage() {
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (!displayName.trim() || !email.trim() || !username.trim() || !password) {
+    if (!username.trim() || !password) {
       setError('Vui lòng điền đầy đủ thông tin.');
       return;
     }
-    if (password.length < 8) {
-      setError('Mật khẩu phải có ít nhất 8 ký tự.');
+    if (!isValidUsername(username.trim())) {
+      setError('Tên đăng nhập gồm 3–50 ký tự: chữ không dấu, số, dấu chấm, gạch dưới hoặc gạch ngang.');
+      return;
+    }
+    if (!isValidPassword(password)) {
+      setError(PASSWORD_RULE);
       return;
     }
     setLoading(true);
     setError('');
     try {
-      const session = await container.register({ email, username, displayName, password });
+      const session = await container.register({ username: username.trim(), password });
       setSession(session, true);
       navigate('/');
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Không thể đăng ký. Vui lòng thử lại.');
+      setError(
+        err instanceof ApiError && err.status === 409
+          ? 'Tên đăng nhập đã tồn tại.'
+          : err instanceof ApiError
+            ? err.message
+            : 'Không thể đăng ký. Vui lòng thử lại.',
+      );
     } finally {
       setLoading(false);
     }
@@ -57,10 +68,9 @@ export function RegisterPage() {
             </div>
           )}
 
-          <TextField label="Tên hiển thị" value={displayName} onChange={setDisplayName} placeholder="Bé Minh Anh" />
-          <TextField label="Email" type="email" value={email} onChange={setEmail} placeholder="you@example.com" />
-          <TextField label="Tên đăng nhập" value={username} onChange={setUsername} placeholder="minhanh (3–30 ký tự, chữ và số)" />
+          <TextField label="Tên đăng nhập" value={username} onChange={setUsername} placeholder="minhanh" />
           <TextField label="Mật khẩu" type="password" value={password} onChange={setPassword} placeholder="Ít nhất 8 ký tự" />
+          <p data-testid="password-rule" style={{ fontSize: 12.5, color: '#6B6B80', margin: '-8px 0 6px' }}>{PASSWORD_RULE}</p>
 
           <div style={{ height: 6 }} />
           <PrimaryButton type="submit" disabled={loading}>
