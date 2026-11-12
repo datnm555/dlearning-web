@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import type { Letter } from '../../domain/models/Letter';
 import { ExampleImage } from './ExampleImage';
 import { HighlightedWord } from './HighlightedWord';
+import { KID_BTN } from './kidClasses';
 import { swipeDirection } from './swipe';
 
 interface Props {
@@ -37,7 +38,7 @@ export function LetterCardView({ letter, hasPrev, hasNext, onPrev, onNext, onClo
 
   return (
     <section
-      className="kid-card"
+      className="relative flex min-h-full touch-pan-y flex-col items-center px-4 pt-4 pb-32 text-ink"
       data-testid="letter-card"
       onTouchStart={(e) => {
         const t = e.touches[0];
@@ -52,7 +53,7 @@ export function LetterCardView({ letter, hasPrev, hasNext, onPrev, onNext, onClo
         if (dir === 'prev' && hasPrev) onPrev();
       }}
     >
-      <button type="button" className="kid-btn kid-back" onClick={onClose} aria-label={labels.back}>
+      <button type="button" className={`${KID_BTN} absolute top-4 left-4`} onClick={onClose} aria-label={labels.back}>
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor" />
           <rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor" />
@@ -61,14 +62,14 @@ export function LetterCardView({ letter, hasPrev, hasNext, onPrev, onNext, onClo
         </svg>
       </button>
 
-      <div className="kid-card-body">
-        <h1 className="kid-big-letter" aria-label={`${letter.upperCase} ${letter.lowerCase}`}>
+      <div className="flex w-full max-w-4xl flex-col items-center gap-3">
+        <h1 className="mt-2 text-[clamp(5.5rem,22vw,12rem)] leading-[1.05] font-extrabold" aria-label={`${letter.upperCase} ${letter.lowerCase}`}>
           <span>{letter.upperCase}</span> <span>{letter.lowerCase}</span>
         </h1>
 
-        <ul className="kid-examples">
+        <ul className="flex w-full flex-wrap justify-center gap-4">
           {examples.map((ex) => (
-            <li key={ex.id} className="kid-example">
+            <li key={ex.id} className="flex w-full flex-col items-center gap-1.5 rounded-[1.75rem] border-[3px] border-ink bg-white px-4 py-3.5 sm:w-65">
               <ExampleImage example={ex} />
               <HighlightedWord text={ex.text} start={ex.highlightStart} />
             </li>
@@ -76,10 +77,10 @@ export function LetterCardView({ letter, hasPrev, hasNext, onPrev, onNext, onClo
         </ul>
       </div>
 
-      <button type="button" className="kid-btn kid-arrow kid-arrow-prev" onClick={onPrev} disabled={!hasPrev} aria-label={labels.prev}>
+      <button type="button" className={`${KID_BTN} fixed bottom-5 left-5 size-21 rounded-full`} onClick={onPrev} disabled={!hasPrev} aria-label={labels.prev}>
         <Arrow dir="left" />
       </button>
-      <button type="button" className="kid-btn kid-arrow kid-arrow-next" onClick={onNext} disabled={!hasNext} aria-label={labels.next}>
+      <button type="button" className={`${KID_BTN} fixed right-5 bottom-5 size-21 rounded-full`} onClick={onNext} disabled={!hasNext} aria-label={labels.next}>
         <Arrow dir="right" />
       </button>
     </section>

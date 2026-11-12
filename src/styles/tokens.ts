@@ -1,4 +1,3 @@
-export const brandGradient = 'linear-gradient(158deg,#4F46E5 0%,#6D28D9 55%,#7C3AED 100%)';
 
 // Rotated across the 29 letter cards for colourful variety.
 export const letterCovers = [

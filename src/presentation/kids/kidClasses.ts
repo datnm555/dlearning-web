@@ -1,0 +1,3 @@
+// Shared Tailwind class strings for the big, friendly kid buttons (>= 64px touch targets).
+export const KID_BTN =
+  'inline-flex min-h-16 min-w-16 cursor-pointer items-center justify-center rounded-3xl border-[3px] border-ink bg-white text-2xl font-bold text-ink shadow-pop-sm transition-transform duration-150 outline-none select-none [-webkit-tap-highlight-color:transparent] hover:-translate-y-0.5 hover:scale-105 active:translate-y-0.5 active:scale-95 focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-blue-600 disabled:pointer-events-none disabled:opacity-30 motion-reduce:transition-none motion-reduce:hover:transform-none motion-reduce:active:transform-none';

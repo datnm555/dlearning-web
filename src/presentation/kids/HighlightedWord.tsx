@@ -3,9 +3,9 @@ import { splitHighlight } from './highlight';
 export function HighlightedWord({ text, start }: { text: string; start: number }) {
   const { before, highlight, after } = splitHighlight(text, start);
   return (
-    <span className="kid-word" aria-label={text}>
+    <span data-testid="kid-word" className="text-center text-3xl font-bold text-ink sm:text-4xl" aria-label={text}>
       {before}
-      {highlight && <mark className="kid-word-hl">{highlight}</mark>}
+      {highlight && <mark className="bg-transparent font-extrabold text-hl">{highlight}</mark>}
       {after}
     </span>
   );

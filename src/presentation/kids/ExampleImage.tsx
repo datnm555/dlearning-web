@@ -7,7 +7,7 @@ export function ExampleImage({ example }: { example: ExampleWord }) {
   if (example.imagePath && !failed) {
     return (
       <img
-        className="kid-pic"
+        className="aspect-square w-full max-w-50 object-contain"
         src={example.imagePath}
         alt={example.text}
         loading="lazy"
@@ -16,7 +16,7 @@ export function ExampleImage({ example }: { example: ExampleWord }) {
     );
   }
   return (
-    <span className="kid-pic kid-pic-emoji" role="img" aria-label={example.text}>
+    <span className="flex aspect-square w-full max-w-50 items-center justify-center text-[6.5rem] leading-none" role="img" aria-label={example.text}>
       {example.emoji ?? '🖼️'}
     </span>
   );

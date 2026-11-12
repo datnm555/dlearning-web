@@ -3,6 +3,7 @@ import { useI18n } from '../i18n/useI18n';
 import { LetterCardView } from './LetterCardView';
 import { StatusView } from './StatusView';
 import type { KidOutletContext } from './KidLayout';
+import { toneFor } from './tones';
 
 export function LetterCardPage() {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export function LetterCardPage() {
   const go = (i: number) => navigate(`/letter/${letters[i].id}`, { replace: true });
 
   return (
-    <div className={`kid-tone-${index % 6} kid-card-wrap`}>
+    <div className={`fixed inset-0 z-10 overflow-y-auto ${toneFor(index)}`}>
       <LetterCardView
         letter={letters[index]}
         hasPrev={index > 0}

@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { container } from '../../di/container';
 import { isValidPassword, isValidUsername } from '../../application/usecases/passwordRule';
 import { ApiError } from '../../infrastructure/http/ApiError';
-import { BrandPane } from '../components/BrandPane';
-import { PrimaryButton } from '../components/PrimaryButton';
-import { TextField } from '../components/TextField';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { AuthLayout } from '../components/AuthLayout';
+import { FormField } from '../components/FormField';
 import { useAuth } from '../auth/useAuth';
 
 const PASSWORD_RULE = 'Mật khẩu 8–128 ký tự, có ít nhất 1 chữ cái và 1 chữ số.';
@@ -52,37 +54,38 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="auth-shell">
-      <BrandPane
-        title={'Bắt đầu\nhành trình học.'}
-        subtitle="Tạo tài khoản dLearning để cùng bé khám phá bảng chữ cái tiếng Việt."
-      />
-      <div className="auth-form">
-        <form onSubmit={submit} style={{ width: '100%', maxWidth: 380, animation: 'fadeUp .5s ease both' }}>
-          <h2 style={{ fontFamily: 'Sora', fontWeight: 700, fontSize: 26, letterSpacing: '-.02em', margin: '0 0 6px' }}>Đăng ký</h2>
-          <p style={{ fontSize: 14, color: '#6B6B80', margin: '0 0 26px' }}>Chỉ mất một phút để tạo tài khoản.</p>
+    <AuthLayout title={'Bắt đầu\nhành trình học.'} subtitle="Tạo tài khoản dLearning để cùng bé khám phá bảng chữ cái tiếng Việt.">
+      <Card>
+        <CardHeader>
+          <CardTitle>Đăng ký</CardTitle>
+          <CardDescription>Chỉ mất một phút để tạo tài khoản.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={submit} className="grid gap-5">
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
 
-          {error && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', fontSize: 12.5, fontWeight: 500, padding: '10px 12px', borderRadius: 11, marginBottom: 16 }}>
-              {error}
+            <FormField label="Tên đăng nhập" value={username} onChange={setUsername} placeholder="minhanh" autoComplete="username" />
+            <div className="grid gap-2">
+              <FormField label="Mật khẩu" type="password" value={password} onChange={setPassword} placeholder="Ít nhất 8 ký tự" autoComplete="new-password" />
+              <p data-testid="password-rule" className="text-sm text-muted-foreground">{PASSWORD_RULE}</p>
             </div>
-          )}
 
-          <TextField label="Tên đăng nhập" value={username} onChange={setUsername} placeholder="minhanh" />
-          <TextField label="Mật khẩu" type="password" value={password} onChange={setPassword} placeholder="Ít nhất 8 ký tự" />
-          <p data-testid="password-rule" style={{ fontSize: 12.5, color: '#6B6B80', margin: '-8px 0 6px' }}>{PASSWORD_RULE}</p>
-
-          <div style={{ height: 6 }} />
-          <PrimaryButton type="submit" disabled={loading}>
-            {loading ? 'Đang tạo tài khoản…' : 'Đăng ký'}
-          </PrimaryButton>
-
-          <p style={{ textAlign: 'center', fontSize: 13, color: '#6B6B80', margin: '24px 0 0' }}>
+            <Button type="submit" size="lg" disabled={loading} className="w-full">
+              {loading ? 'Đang tạo tài khoản…' : 'Đăng ký'}
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="justify-center text-sm text-muted-foreground">
+          <span>
             Đã có tài khoản?{' '}
-            <Link to="/login" style={{ fontWeight: 700, color: '#4F46E5', textDecoration: 'none' }}>Đăng nhập</Link>
-          </p>
-        </form>
-      </div>
-    </div>
+            <Link to="/login" className="font-bold text-primary-strong hover:underline">Đăng nhập</Link>
+          </span>
+        </CardFooter>
+      </Card>
+    </AuthLayout>
   );
 }
