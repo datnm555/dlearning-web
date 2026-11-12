@@ -1,3 +1,5 @@
+import { LogOut } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { useAuth } from '../auth/useAuth';
@@ -13,24 +15,23 @@ export function KidLayout() {
   const state = useLetters();
 
   return (
-    <div className="kid-app">
-      <header className="kid-header">
-        <span className="kid-logo">ABC</span>
-        <div className="kid-header-actions">
+    <div className="min-h-dvh bg-kid-bg text-ink">
+      <header className="flex items-center justify-between gap-3 px-4 py-2.5">
+        <span className="rounded-full bg-tile-6 px-4.5 py-0.5 text-3xl font-extrabold tracking-wide max-sm:text-2xl">ABC</span>
+        <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          <button
+          <Button
             type="button"
-            className="kid-btn kid-logout"
+            variant="outline"
+            size="icon"
             aria-label={t('common.logout')}
             onClick={() => { logout(); navigate('/login'); }}
           >
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+            <LogOut className="size-5" aria-hidden="true" />
+          </Button>
         </div>
       </header>
-      <main className="kid-main">
+      <main className="mx-auto max-w-275 px-4 pt-2 pb-8">
         <Outlet context={state satisfies KidOutletContext} />
       </main>
     </div>

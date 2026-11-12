@@ -23,7 +23,7 @@ describe('LetterCardView', () => {
   it('shows the big letter, ordered examples and highlights the initial', () => {
     setup();
     expect(screen.getByRole('heading', { name: 'B b' })).toBeInTheDocument();
-    const words = screen.getAllByText((_, el) => el?.classList.contains('kid-word') ?? false);
+    const words = screen.getAllByTestId('kid-word');
     expect(words.map((w) => w.textContent)).toEqual(['bóng', 'con bướm']);
     const marks = document.querySelectorAll('mark');
     expect(Array.from(marks).map((m) => m.textContent)).toEqual(['b', 'b']);
