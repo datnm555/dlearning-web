@@ -63,7 +63,7 @@ export function LetterCardView({ letter, hasPrev, hasNext, onPrev, onNext, onClo
       </button>
 
       <div className="flex w-full max-w-4xl flex-col items-center gap-3">
-        <h1 className="mt-2 text-[clamp(5.5rem,22vw,12rem)] leading-[1.05] font-extrabold" aria-label={`${letter.upperCase} ${letter.lowerCase}`}>
+        <h1 className="mt-2 font-letter text-[clamp(5.5rem,22vw,12rem)] leading-[1.05] font-bold" aria-label={`${letter.upperCase} ${letter.lowerCase}`}>
           <span>{letter.upperCase}</span> <span>{letter.lowerCase}</span>
         </h1>
 
